@@ -20,12 +20,30 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLink href="/sale">
+            <NavText>Sale</NavText>
+            <NavTextBold>Sale</NavTextBold>
+          </NavLink>
+          <NavLink href="/new">
+            <NavText>New&nbsp;Releases</NavText>
+            <NavTextBold>New&nbsp;Releases</NavTextBold>
+          </NavLink>
+          <NavLink href="/men">
+            <NavText>Men</NavText>
+            <NavTextBold>Men</NavTextBold>
+          </NavLink>
+          <NavLink href="/women">
+            <NavText>Women</NavText>
+            <NavTextBold>Women</NavTextBold>
+          </NavLink>
+          <NavLink href="/kids">
+            <NavText>Kids</NavText>
+            <NavTextBold>Kids</NavTextBold>
+          </NavLink>
+          <NavLink href="/collections">
+            <NavText>Collections</NavText>
+            <NavTextBold>Collections</NavTextBold>
+          </NavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -115,6 +133,7 @@ const Filler = styled.div`
 `;
 
 const NavLink = styled.a`
+  position: relative;
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
@@ -123,6 +142,46 @@ const NavLink = styled.a`
 
   &:first-of-type {
     color: var(--color-secondary);
+  }
+`;
+
+const NavText = styled.span`
+  display: block;
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    backface-visibility: hidden;
+    transform: rotateX(0deg);
+    transform-origin: center top;
+    transition: transform 300ms;
+    transition-delay: 100ms;
+    will-change: transform;
+
+    ${NavLink}:hover &,
+    ${NavLink}:focus & {
+      transform: rotateX(-90deg);
+      transition: transform 200ms;
+    }
+  }
+`;
+
+const NavTextBold = styled(NavText)`
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  font-weight: ${WEIGHTS.bold};
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    transform: rotateX(90deg);
+    transform-origin: center bottom;
+    transition: transform 300ms;
+
+    ${NavLink}:hover &,
+    ${NavLink}:focus & {
+      transform: rotateX(0deg);
+      transition: transform 200ms;
+      transition-delay: 50ms;
+    }
   }
 `;
 
