@@ -87,17 +87,24 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
-  display: inline-block;
+  display: block;
   width: 100%;
   
   object-fit: cover;
   will-change: transform;
   transform-origin: 50% 85%;
+  transition: transform 600ms;
 
-  @media (prefers-reduced-motion: no-preference) {
+  /*
+    (hover: hover) makes sure we only apply the hover effect
+    on devices that support it. Otherwise, on mobile, the
+    animation will trigger even when they just click on
+    the image.
+  */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     ${Link}:hover & {
       transform: scale(1.1);
-      transition: transform 500ms;
+      transition: transform 200ms;
     }
   }
 `;
@@ -158,7 +165,7 @@ const Flag = styled.div`
   color: var(--color-white);
   border-radius: 2px;
 
-  @media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     ${Link}:hover & {
       animation: ${WiggleAnimation} 400ms linear;
       animation-iteration-count: 2;
