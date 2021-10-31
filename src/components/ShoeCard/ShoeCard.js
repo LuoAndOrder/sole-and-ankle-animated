@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 
 import { WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
@@ -34,13 +34,15 @@ const ShoeCard = ({
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
-        <ImageWrapper>
-          <Image alt="" src={imageSrc} />
+        <ImageAndFlagWrapper>
+          <ImageWrapper>
+            <Image alt="" src={imageSrc} />
+          </ImageWrapper>
           {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
           {variant === 'new-release' && (
             <NewFlag>Just released!</NewFlag>
           )}
-        </ImageWrapper>
+        </ImageAndFlagWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
@@ -75,13 +77,29 @@ const Link = styled.a`
 
 const Wrapper = styled.article``;
 
+const ImageAndFlagWrapper = styled.div`
+  position: relative; 
+`;
+
 const ImageWrapper = styled.div`
-  position: relative;
+  overflow: hidden;
+  border-radius: 16px 16px 4px 4px;
 `;
 
 const Image = styled.img`
+  display: inline-block;
   width: 100%;
-  border-radius: 16px 16px 4px 4px;
+  
+  object-fit: cover;
+  will-change: transform;
+  transform-origin: 50% 85%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    ${Link}:hover & {
+      transform: scale(1.1);
+      transition: transform 500ms;
+    }
+  }
 `;
 
 const Row = styled.div`
@@ -109,6 +127,24 @@ const SalePrice = styled.span`
   color: var(--color-primary);
 `;
 
+const WiggleAnimation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+`;
+
 const Flag = styled.div`
   position: absolute;
   top: 12px;
@@ -121,6 +157,13 @@ const Flag = styled.div`
   font-weight: ${WEIGHTS.bold};
   color: var(--color-white);
   border-radius: 2px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    ${Link}:hover & {
+      animation: ${WiggleAnimation} 400ms linear;
+      animation-iteration-count: 2;
+    }
+  }
 `;
 
 const SaleFlag = styled(Flag)`
